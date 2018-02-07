@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "69084932142",
+    "firebase_url": "https://todosharecalendar.firebaseio.com",
+    "project_id": "todosharecalendar",
+    "storage_bucket": "todosharecalendar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:69084932142:android:fdeba3b019158a5d",
+        "android_client_info": {
+          "package_name": "com.example.todoshare.todosharecalendar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "69084932142-dea2l7utl0isf5vg8l1sioassov7d9sf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaeUBUBSPJxz98XaUxomsmaKaZoQTgLcM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

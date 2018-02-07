@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".activity.TodoAddDetailContentActivity">
+
+        <TextView
+            android:layout_margin="@dimen/space_1x"
+            android:id="@+id/detail_dateview"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            />
+
+        <TimePicker
+            android:id="@+id/detail_picker"
+            android:layout_margin="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:timePickerMode="spinner">
+
+        </TimePicker>
+
+        <EditText
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:id="@+id/detail_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="제목을 입력하세요"
+            android:singleLine="true"
+            android:imeOptions="actionDone"/>
+
+        <EditText
+            android:layout_margin="16dp"
+            android:id="@+id/detail_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="내용을 입력하세요"
+            android:singleLine="true"
+            android:imeOptions="actionDone"/>
+
+        <CheckBox
+            android:layout_marginLeft="16dp"
+            android:id="@+id/detail_checkshare"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="공유여부"/>
+        <Button
+            android:layout_margin="16dp"
+            android:id="@+id/detail_submitbutton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="일정등록"/>
+
+    </LinearLayout>
+
+</ScrollView>
+
