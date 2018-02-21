@@ -7,4 +7,7 @@ package com.example.todoshare.todosharecalendar.utils;
 public class GlobalVar {
     public static String SIGNUP_API = "http://plplim.ipdisk.co.kr:8000/todosharecalendar/_todo_signup.php";
     public static String TODO_ADD = "http://plplim.ipdisk.co.kr:8000/todosharecalendar/_todo_add.php";
+    public static String ID_VALIDATE_API = "http://plplim.ipdisk.co.kr:8000/todosharecalendar/UserValidate.php";
+
+
 }

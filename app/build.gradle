@@ -30,11 +30,11 @@ dependencies {
     compile 'com.android.support:design:26.1.0'
     compile 'com.prolificinteractive:material-calendarview:1.4.3'
     compile 'com.github.applikeysolutions:cosmocalendar:1.0.4'
-
+    compile 'com.android.volley:volley:1.0.0'
     //추가한 라인(계속 업그레이드 되고 있다.)
-    compile 'com.google.firebase:firebase-messaging:11.0.4'
+    compile 'com.google.firebase:firebase-messaging:11.8.0'
 //서버로 데이터를 보낼때 okhttp를 사용한다면 추가
-    compile 'com.squareup.okhttp3:okhttp:3.2.0'
+    compile 'com.squareup.okhttp3:okhttp:3.7.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,91 +8,127 @@
     android:padding="16dp"
     tools:context="activity.SignupActivity">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="회 원 가 입"
+        android:textColor="#ffffff"
+        android:background="@color/colorPrimary"
+        android:textSize="32dp"
+        android:textStyle="bold"
+        android:layout_alignParentTop="true"
+        android:id="@+id/textView2" />
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/textView2"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:gravity="center">
 
-
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="회 원 가 입"
-            android:textColor="#90c40909"
-            android:textSize="32dp"
-            android:textStyle="bold"/>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/signup_user_id"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:ems="10"
+                android:layout_weight="7"
+                android:background="@color/colorPrimary"
+                android:drawableLeft="@drawable/ic_mail_black_24dp"
+                android:drawableStart="@drawable/ic_mail_black_24dp"
                 android:hint="이메일형식 아이디에요"
-                android:inputType="textEmailAddress"/>
-        </android.support.design.widget.TextInputLayout>
+                android:inputType="textEmailAddress"
+                android:padding="10dp"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff" />
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
-
-            <EditText
-                android:id="@+id/signup_user_password"
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/signup_button_idvalidate"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="비밀번호 길이는 자유에요"
-                android:inputType="textPassword"/>
-        </android.support.design.widget.TextInputLayout>
+                android:layout_gravity="center"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="3"
+                android:background="@color/colorAccent"
+                android:text="중복 확인"
+                android:textColor="#ffffff"
+                android:textStyle="bold" />
 
-        <android.support.design.widget.TextInputLayout
+        </LinearLayout>
+
+
+        <EditText
+            android:id="@+id/signup_user_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:background="@color/colorPrimary"
+            android:drawableLeft="@drawable/ic_lock_outline_black_24dp"
+            android:drawableStart="@drawable/ic_lock_outline_black_24dp"
+            android:ems="10"
+            android:hint="비밀번호 길이는 자유에요"
+            android:inputType="textPassword"
+            android:padding="10dp"
+            android:textColor="#ffffff"
+            android:textColorHint="#ffffff" />
 
-            <EditText
-                android:id="@+id/signup_user_pass_check"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="입력한 비밀번호가 맞는지 확인해주세요"
-                android:inputType="textPassword"/>
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
+        <EditText
+            android:id="@+id/signup_user_nick"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:background="@color/colorPrimary"
+            android:drawableLeft="@drawable/ic_person_black_24dp"
+            android:drawableStart="@drawable/ic_person_black_24dp"
+            android:ems="10"
+            android:hint="닉네임"
+            android:inputType="text"
+            android:padding="10dp"
+            android:textColor="#ffffff"
+            android:textColorHint="#ffffff" />
 
-            <EditText
-                android:id="@+id/signup_user_nick"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="닉네임도 자유에요"
-                android:inputType="text"/>
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/signup_user_group"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:background="@color/colorPrimary"
+                android:drawableLeft="@drawable/ic_group_black_24dp"
+                android:drawableStart="@drawable/ic_group_black_24dp"
                 android:ems="10"
-                android:hint="그룹명을 쓰세요"
-                android:inputType="text"/>
-        </android.support.design.widget.TextInputLayout>
+                android:hint="그룹명"
+                android:inputType="text"
+                android:padding="10dp"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff" />
+
+            <Button
+                android:id="@+id/signup_button_groupvalidate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="3"
+                android:background="@color/colorAccent"
+                android:text="그룹 확인"
+                android:textColor="#ffffff"
+                android:textStyle="bold" />
+        </LinearLayout>
 
 
         <Button
@@ -100,9 +136,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="#b45705"
+            android:background="@color/colorPrimary"
             android:text="회 원 가 입"
-            android:textColor="#fff"/>
+            android:textColor="#fff"
+            android:textStyle="bold" />
 
     </LinearLayout>
     <!--
@@ -129,4 +166,4 @@
         android:textColor="#fff"/>
     -->
 
-</ScrollView>
+</RelativeLayout>

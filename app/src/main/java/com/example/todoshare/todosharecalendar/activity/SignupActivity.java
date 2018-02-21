@@ -1,8 +1,10 @@
 package com.example.todoshare.todosharecalendar.activity;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,9 +13,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
 import com.example.todoshare.todosharecalendar.R;
 import com.example.todoshare.todosharecalendar.utils.AsyncSignupApi;
+import com.example.todoshare.todosharecalendar.utils.CreateGroupRequest;
+import com.example.todoshare.todosharecalendar.utils.GroupValidateRequest;
+import com.example.todoshare.todosharecalendar.utils.IdValidateRequest;
 import com.example.todoshare.todosharecalendar.utils.RbPreference;
+import com.example.todoshare.todosharecalendar.utils.RegisterRequest;
 import com.example.todoshare.todosharecalendar.utils.RequestHandler;
 import com.google.firebase.iid.FirebaseInstanceId;
 
@@ -32,9 +41,14 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     private EditText user_pass_check_edt;
     private EditText user_nick_edt;
     private EditText user_group_edt;
+    private Button group_validate_button;
+    private Button id_validate_button;
 
     private Button sign_up_btn;
+    private boolean id_validate = false;
+    private boolean group_validate = false;
 
+    private AlertDialog dialog;
     //public static RbPreference mPref;
 
     @Override
@@ -48,12 +62,17 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     private void init(){
         user_id_edt = (EditText) findViewById(R.id.signup_user_id);
         user_password_edt = (EditText) findViewById(R.id.signup_user_password);
-        user_pass_check_edt = (EditText) findViewById(R.id.signup_user_pass_check);
         user_nick_edt = (EditText) findViewById(R.id.signup_user_nick);
         user_group_edt = (EditText) findViewById(R.id.signup_user_group);
 
         sign_up_btn = (Button) findViewById(R.id.signup_button);
+        id_validate_button = (Button) findViewById(R.id.signup_button_idvalidate);
+        group_validate_button = (Button) findViewById(R.id.signup_button_groupvalidate);
+
+        id_validate_button.setOnClickListener(this);
+        group_validate_button.setOnClickListener(this);
         sign_up_btn.setOnClickListener(this);
+
     }
 
     private void signupModule(String userId, String userPass, String userNick, String userGroup){
@@ -73,20 +92,122 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.signup_button :
+                //회원가입 버튼
                 sign_up_btn.setEnabled(false);
-                if(user_id_edt.getText().toString().length() != 0 && user_password_edt.getText().toString().length() != 0 && user_nick_edt.getText().toString().length() != 0){
-
-                    if (user_password_edt.getText().toString().equals(user_pass_check_edt.getText().toString())) {
-                        signupModule(user_id_edt.getText().toString(),user_password_edt.getText().toString(),user_nick_edt.getText().toString(), user_group_edt.getText().toString());
-                    } else {
-                        Toast.makeText(SignupActivity.this, "비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show();
-                        sign_up_btn.setEnabled(true);
-                    }
-
-                } else {
-                    sign_up_btn.setEnabled(true);
-                    Toast.makeText(SignupActivity.this, "모든정보를 입력해주세요", Toast.LENGTH_SHORT).show();
+                String userId = user_id_edt.getText().toString();
+                String userPassword = user_password_edt.getText().toString();
+                String userName = user_nick_edt.getText().toString();
+                String userGroup = user_group_edt.getText().toString();
+                String userAuth = FirebaseInstanceId.getInstance().getToken();
+                if (!id_validate) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(SignupActivity.this);
+                    dialog = builder.setMessage("아이디 중복 체크를 해주세요")
+                            .setNegativeButton("확인", null)
+                            .create();
+                    dialog.show();
+                    return;
                 }
+
+
+                if(userId.equals("") || userPassword.equals("") || userName.equals("") || userGroup.equals("")){
+                    sign_up_btn.setEnabled(true);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(SignupActivity.this);
+                    dialog = builder.setMessage("빈 칸 없이 입력해주세요")
+                            .setNegativeButton("확인", null)
+                            .create();
+                    dialog.show();
+                    return;
+                }
+
+                Response.Listener<String> resonseListener = new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+                            boolean success = jsonResponse.getBoolean("success");
+                            if (success) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(SignupActivity.this);
+                                dialog = builder.setMessage("회원 등록에 성공했습니다")
+                                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                Intent intent = new Intent(SignupActivity.this, MainActivity.class);
+                                                SignupActivity.this.startActivity(intent);
+                                                finish();
+                                            }
+                                        })
+                                        .create();
+                                dialog.show();
+
+                            } else {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(SignupActivity.this);
+                                dialog = builder.setMessage("회원 등록에 실패했습니다")
+                                        .setNegativeButton("확인", null)
+                                        .create();
+                                dialog.show();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                RegisterRequest registerRequest = new RegisterRequest(userId, userPassword, userName, userGroup, userAuth, resonseListener);
+                RequestQueue queue = Volley.newRequestQueue(SignupActivity.this);
+                queue.add(registerRequest);
+                break;
+
+            case R.id.signup_button_idvalidate:
+                //ID 중복확인 버튼
+                String userID = user_id_edt.getText().toString();
+                if (id_validate) {
+                    return;
+                }
+                if (userID.equals("")) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(SignupActivity.this);
+                    dialog = builder.setMessage("아이디는 빈 칸일 수 없습니다")
+                            .setPositiveButton("확인", null)
+                            .create();
+
+                    dialog.show();
+                    return;
+                }
+
+                Response.Listener<String> idResonseListener = new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+                            boolean success = jsonResponse.getBoolean("success");
+                            if (success) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(SignupActivity.this);
+                                dialog = builder.setMessage("사용할 수 있는 아이디입니다")
+                                        .setPositiveButton("확인", null)
+                                        .create();
+                                dialog.show();
+                                user_id_edt.setEnabled(false);
+                                id_validate = true;
+                                user_id_edt.setBackgroundColor(getResources().getColor(R.color.colorGray));
+                                id_validate_button.setBackgroundColor(getResources().getColor(R.color.colorGray));
+                            } else {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(SignupActivity.this);
+                                dialog = builder.setMessage("사용할 수 없는 아이디입니다")
+                                        .setNegativeButton("확인", null)
+                                        .create();
+                                dialog.show();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                IdValidateRequest validateRequest = new IdValidateRequest(userID, idResonseListener);
+                RequestQueue idQuere = Volley.newRequestQueue(SignupActivity.this);
+                idQuere.add(validateRequest);
+                break;
+
+            case R.id.signup_button_groupvalidate:
+                //그룹명 중복확인 버튼
+
                 break;
         }
     }
